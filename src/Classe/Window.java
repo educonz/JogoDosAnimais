@@ -11,15 +11,24 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import Animal.AnimalNaoViveNaAgua;
-import Animal.AnimalViveAgua;
+import Animais.Animal;
+import Animais.Aprende;
+import Animais.Habilidade;
+import Animais.Vitoria;
+import Interface.IInteragir;
 
 public class Window {
 
 	public static void main(String[] args) {
 		
-		AnimalViveAgua agua = new AnimalViveAgua();
-		AnimalNaoViveNaAgua padrao = new AnimalNaoViveNaAgua();
+		IInteragir interacao = new Interagir(); 
+		Aprende aprende = new Aprende(interacao);
+		Vitoria vitoria = new Vitoria(interacao);
+		
+		Animal animalAquatico = new Animal(aprende, vitoria, "Tubarão", interacao);
+		Animal animalTerrestre = new Animal(aprende, vitoria, "Macaco", interacao);
+		
+		Habilidade habilidade = new Habilidade(animalAquatico, animalTerrestre, "vive na água", interacao);
 		
 		JFrame frame = new JFrame("Jogo dos animais");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,12 +48,7 @@ public class Window {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Acao acao = new Acao();
-				Interagir interacao = new Interagir();
-				
-				acao.ProcurarAnimais(
-						new Interagir().Pergunta("O animal que você pensou vive na água?") ? agua : padrao,
-						interacao);
+				habilidade.Executar(habilidade);
 			}
 		});
 		
