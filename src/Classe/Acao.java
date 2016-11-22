@@ -1,41 +1,35 @@
 package Classe;
 
-import Animal.Animal;
-import Interface.IAnimalAcao;
 import Interface.IInteragir;
 
-public class Acao {
+public abstract class Acao {
 	
-	public boolean ProcurarAnimais(IAnimalAcao animalAcao, IInteragir interacao)
-	{
-		for (Animal animal : animalAcao.GetAnimais()) {
-			if (interacao.Pergunta("O animal que você pensou " + animal.getHabilidade() + "?") && interacao.Pergunta("O animal que você pensou é " + animal.getNome() + "?"))
-			{
-				ExibirVitoria(interacao);
-				return true;
-			}
-		}
-		
-		if (ProcurarAnimalPadrao(animalAcao, interacao)) {
-			return true;
-		}
-		
-		animalAcao.Add(interacao.Aprender(animalAcao.AnimalComparacao()));
-		return false;
+	private String descricao;
+	private IInteragir interagir;
+	
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	public IInteragir getInteragir() {
+		return interagir;
+	}
+	public void setInteragir(IInteragir interagir) {
+		this.interagir = interagir;
 	}
 	
-	public boolean ProcurarAnimalPadrao(IAnimalAcao animalAcao, IInteragir interacao)
+	public Acao(String descricao, IInteragir interagir)
 	{
-		if (interacao.Pergunta("O animal que você pensou é " + animalAcao.AnimalComparacao() + "?")) {
-			ExibirVitoria(interacao);
-			return true;
-		}
-		
-		return false;
+		this.descricao = descricao;
+		this.interagir = interagir;
 	}
 	
-	private void ExibirVitoria(IInteragir interacao)
+	public abstract Acao Executar(Acao acao);
+	
+	public boolean MostraPergunta(String pergunta, String habilidade)
 	{
-		interacao.MostrarVitoria();
+		return interagir.Pergunta(pergunta + habilidade);
 	}
 }
